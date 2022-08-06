@@ -75,7 +75,7 @@ impl Entity for Player {
 		return &self.life;
 	}
 
-	fn should_be_kept(&self) -> bool {
+	fn is_alive(&self) -> bool {
 		if self.life <= 0 {
 			println!("Player removed!");
 			return false;

@@ -56,7 +56,7 @@ impl Entity for Projectile {
 	}
 
 
-	fn should_be_kept(&self) -> bool {
+	fn is_alive(&self) -> bool {
 		if self.position.x <= 0.0 - self.size.x
 		|| self.position.x >= screen_width()
 		|| self.position.y <= 0.0 - self.size.y

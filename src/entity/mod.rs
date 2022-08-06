@@ -20,5 +20,5 @@ pub trait Entity {
 	fn get_size(&self) -> &Vec2;
 	fn get_life(&self) -> &i32;
 
-	fn should_be_kept(&self) -> bool;
+	fn is_alive(&self) -> bool;
 }

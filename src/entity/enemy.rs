@@ -60,7 +60,7 @@ impl Entity for Enemy {
 		return &self.life;
 	}
 	
-	fn should_be_kept(&self) -> bool {
+	fn is_alive(&self) -> bool {
 		if self.position.y > screen_height()
 		|| self.life <= 0 {
 			println!("Enemy removed!");

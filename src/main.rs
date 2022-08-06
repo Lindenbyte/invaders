@@ -45,7 +45,7 @@ async fn main() {
 		}
 
 		entities.retain(|entity| {
-			return entity.should_be_kept();
+			return entity.is_alive();
 		});
 
 		// Debug information to screen
