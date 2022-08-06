@@ -3,10 +3,13 @@ use macroquad::prelude::*;
 mod entity;
 use entity::{
 	player::Player,
-	enemy::Enemy,
+	enemy::{
+		Enemy,
+		ENEMY_SPAWN_CHANCE
+	},
 	projectile::{
 		Projectile,
-		PROJECTILE_DAMAGE,
+		PROJECTILE_DEFAULT_DAMAGE,
 		PROJECTILE_SIZE
 	},
 };
@@ -27,12 +30,9 @@ fn window_config() -> Conf {
 async fn main() {
 	// Setup
 	let mut player: Player = Player::new();
-	let mut enemies: Vec<Enemy> = vec![
-		Enemy::new(
-			vec2(screen_width() / 2.0, 0.0),
-			100
-		)
-	];
+	let mut kills: i32 = 0;
+
+	let mut enemies: Vec<Enemy> = vec![];	
 	let mut projectiles: Vec<Projectile> = vec![];
 
 	// Main loop
@@ -45,14 +45,21 @@ async fn main() {
 			let position = *player.get_position() + *player.get_size() / 2.0 - projectile_offset;
 
 			projectiles.push(
-				Projectile::new(position)
+				Projectile::new(position, PROJECTILE_DEFAULT_DAMAGE)
 			)
 		}
 
-		// for enemy in enemies.iter_mut() {
-		// 	enemy.update();
-		// 	enemy.render();
-		// }
+		let enemy_spawn_roll: f32 = rand::gen_range(0.0, 1.0);
+		if enemy_spawn_roll <= ENEMY_SPAWN_CHANCE {
+			let life: i32 = rand::gen_range(10, 60); 
+			let size = Enemy::calculate_size(life);
+			let position = vec2(
+				rand::gen_range(20.0, screen_width() - size.x),
+				0.0
+			);
+			
+			enemies.push(Enemy::new(position, life, size));
+		}
 
 		enemies.retain_mut(|enemy| {
 			enemy.update();
@@ -65,9 +72,15 @@ async fn main() {
 			projectile.update();
 			projectile.render();
 
-			for enemy in enemies.iter_mut() { 
-				if projectile.get_rect().overlaps(&enemy.get_rect()) {
-					enemy.damage(PROJECTILE_DAMAGE);
+			for enemy in enemies.iter_mut() {
+				let id = projectile.get_id();
+				
+				if projectile.get_rect().overlaps(&enemy.get_rect()) && !enemy.damaged_by(id) {
+					enemy.damage(id, projectile.get_damage());
+					if !enemy.is_alive() {
+						kills += 1;
+					}
+					
 					projectile.hit();
 				}
 			}
@@ -82,7 +95,13 @@ async fn main() {
 		draw_text(
 			format!("HP: {}", player.get_life()).as_str(),
 			10.0, screen_height() - player.get_size().y,
-			18.0, WHITE
+			24.0, WHITE
+		);
+
+		draw_text(
+			format!("Kills: {}", kills).as_str(),
+			100.0, screen_height() - player.get_size().y,
+			24.0, WHITE
 		);
 
 		// Debug information to screen
