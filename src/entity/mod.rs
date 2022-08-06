@@ -18,4 +18,6 @@ pub trait Entity {
 	fn get_life(&self) -> &i32;
 	fn get_position(&self) -> &Vec2;
 	fn get_size(&self) -> &Vec2;
+
+	fn should_be_kept(&self) -> bool;
 }

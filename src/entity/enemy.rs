@@ -5,8 +5,8 @@ use super::{
 	EntityType
 };
 
-const ENEMY_DEFAULT_WIDTH: f32 		= 30.0;
-const ENEMY_DEFAULT_HEIGHT: f32 	= 30.0;
+const ENEMY_DEFAULT_WIDTH: f32 		= 50.0;
+const ENEMY_DEFAULT_HEIGHT: f32 	= 50.0;
 const ENEMY_LIFE_TO_SIZE_RATIO: f32 = 0.1;
 const ENEMY_VELOCITY: f32 			= 1.0;
 
@@ -58,5 +58,15 @@ impl Entity for Enemy {
 
 	fn get_size(&self) -> &Vec2 {
 		return &self.size;
+	}
+
+	fn should_be_kept(&self) -> bool {
+		if self.position.y > screen_height()
+		|| self.life <= 0 {
+			println!("Enemy removed!");
+			return false;
+		}
+		
+		return true;
 	}
 }

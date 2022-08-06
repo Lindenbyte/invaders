@@ -5,8 +5,8 @@ use super::{
 	EntityType
 };
 
-const PLAYER_WIDTH: f32 	= 25.0;
-const PLAYER_HEIGHT: f32 	= 25.0;
+const PLAYER_WIDTH: f32 	= 40.0;
+const PLAYER_HEIGHT: f32 	= 40.0;
 const PLAYER_VELOCITY: f32 	= 3.0;
 
 pub struct Player {
@@ -73,5 +73,14 @@ impl Entity for Player {
 
 	fn get_life(&self) -> &i32 {
 		return &self.life;
+	}
+
+	fn should_be_kept(&self) -> bool {
+		if self.life <= 0 {
+			println!("Player removed!");
+			return false;
+		}
+
+		return true;
 	}
 }

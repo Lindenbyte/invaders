@@ -32,27 +32,18 @@ async fn main() {
 			entity.update();
 			entity.render();
 
-			match entity.get_type() {
-				EntityType::Player => {},
-				EntityType::Enemy => {},
-				EntityType::Projectile => {},
-			}
+			// match entity.get_type() {
+			// 	EntityType::Player => {},
+			// 	EntityType::Enemy => {},
+			// 	EntityType::Projectile => {},
+			// }
 		}
 
 		entities.retain(|entity| {
-			match entity.get_type() {
-				EntityType::Enemy => {
-					if entity.get_position().y > screen_height()
-					|| *entity.get_life() <= 0 {
-						return false;
-					}
-
-					return true;
-				},
-				_ => return true
-			}
+			return entity.should_be_kept();
 		});
 
+		// Debug information to screen
 		#[cfg(debug_assertions)] {
 			draw_text(
 				format!("FPS: {}", get_fps()).as_str(), 
