@@ -47,19 +47,19 @@ impl Entity for Enemy {
 	fn get_type(&self) -> &EntityType {
 		return &self.entity_type;
 	}
-
-	fn get_life(&self) -> &i32 {
-		return &self.life;
-	}
-
+	
 	fn get_position(&self) -> &Vec2 {
 		return &self.position;
 	}
-
+	
 	fn get_size(&self) -> &Vec2 {
 		return &self.size;
 	}
 
+	fn get_life(&self) -> &i32 {
+		return &self.life;
+	}
+	
 	fn should_be_kept(&self) -> bool {
 		if self.position.y > screen_height()
 		|| self.life <= 0 {

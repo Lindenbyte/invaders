@@ -5,13 +5,17 @@ use entity::{
 	Entity,
 	EntityType,
 	player::Player,
-	enemy::Enemy
+	enemy::Enemy,
+	projectile::Projectile,
 };
 
+// TODO: Move window back to fullscreen later, changed to smaller size for stream.
 fn window_config() -> Conf {
 	return Conf { 
 		window_title: "Invaders".to_owned(),
-		fullscreen: true, 
+		window_width: 1366,
+		window_height: 768,
+		// fullscreen: true, 
 		window_resizable: false,
 		..Default::default()
 	}
@@ -23,6 +27,7 @@ async fn main() {
 	let mut entities: Vec<Box<dyn Entity>> = vec![];
 	entities.push(Box::new(Player::new()));
 	entities.push(Box::new(Enemy::new(vec2(10.0, 0.0), 10)));
+	entities.push(Box::new(Projectile::new(vec2(100.0, 100.0))));
 
 	// Main loop
 	while !is_key_pressed(KeyCode::Escape) {

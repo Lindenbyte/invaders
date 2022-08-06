@@ -3,6 +3,7 @@ use macroquad::prelude::*;
 
 pub mod player;
 pub mod enemy;
+pub mod projectile;
 
 pub enum EntityType {
 	Player,
@@ -15,9 +16,9 @@ pub trait Entity {
 	fn render(&self);
 
 	fn get_type(&self) -> &EntityType;
-	fn get_life(&self) -> &i32;
 	fn get_position(&self) -> &Vec2;
 	fn get_size(&self) -> &Vec2;
+	fn get_life(&self) -> &i32;
 
 	fn should_be_kept(&self) -> bool;
 }
