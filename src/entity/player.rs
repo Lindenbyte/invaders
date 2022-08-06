@@ -5,25 +5,27 @@ use super::{
 	EntityType
 };
 
-const PLAYER_WIDTH: f32 = 25.0;
-const PLAYER_HEIGHT: f32 = 25.0;
-const PLAYER_VELOCITY: f32 = 3.0;
+const PLAYER_WIDTH: f32 	= 25.0;
+const PLAYER_HEIGHT: f32 	= 25.0;
+const PLAYER_VELOCITY: f32 	= 3.0;
 
 pub struct Player {
+	entity_type: EntityType,
 	position: Vec2,
 	size: Vec2,
-	entity_type: EntityType
+	life: i32,
 }
 
 impl Player {
 	pub fn new() -> Self {
 		return Self {
+			entity_type: EntityType::Player,
 			position: vec2(
 				(screen_width() / 2.0) - (PLAYER_WIDTH / 2.0),
 				screen_height() - (PLAYER_HEIGHT * 2.0)
-				),
+			),
 			size: vec2(PLAYER_WIDTH, PLAYER_HEIGHT),
-			entity_type: EntityType::Player
+			life: 100,
 		}
 	}
 }
@@ -56,16 +58,20 @@ impl Entity for Player {
 		draw_rectangle(self.position.x, self.position.y, self.size.x, self.size.y, BLUE);
 	}
 
-
+	
 	fn get_type(&self) -> &EntityType {
 		return &self.entity_type;
 	}
-
+	
 	fn get_position(&self) -> &Vec2 {
 		return &self.position;
 	}
-
+	
 	fn get_size(&self) -> &Vec2 {
 		return &self.size;
+	}
+
+	fn get_life(&self) -> &i32 {
+		return &self.life;
 	}
 }
