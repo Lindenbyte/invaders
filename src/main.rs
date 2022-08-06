@@ -62,30 +62,38 @@ async fn main() {
 		}
 
 		enemies.retain_mut(|enemy| {
-			enemy.update();
-			enemy.render();
+			if enemy.is_alive() {
+				enemy.update();
+				enemy.render();
 
-			return enemy.is_alive();
+				return true;
+			}
+
+			return false;
 		});
 
 		projectiles.retain_mut(|projectile| {
-			projectile.update();
-			projectile.render();
-
-			for enemy in enemies.iter_mut() {
-				let id = projectile.get_id();
-				
-				if projectile.get_rect().overlaps(&enemy.get_rect()) && !enemy.damaged_by(id) {
-					enemy.damage(id, projectile.get_damage());
-					if !enemy.is_alive() {
-						kills += 1;
-					}
+			if projectile.is_alive() {
+				projectile.update();
+				projectile.render();
+	
+				for enemy in enemies.iter_mut() {
+					let id = projectile.get_id();
 					
-					projectile.hit();
+					if projectile.get_rect().overlaps(&enemy.get_rect()) && !enemy.damaged_by(id) {
+						enemy.damage(id, projectile.get_damage());
+						if !enemy.is_alive() {
+							kills += 1;
+						}
+						
+						projectile.hit();
+					}
 				}
-			}
 
-			return projectile.is_alive();
+				return true;
+			}	
+
+			return false;
 		});
 
 		player.update();
