@@ -55,6 +55,14 @@ async fn main() {
 			}
 		});
 
+		#[cfg(debug_assertions)] {
+			draw_text(
+				format!("FPS: {}", get_fps()).as_str(), 
+				10.0, 28.0, 
+				18.0, GREEN
+			);
+		}
+
 		next_frame().await;
 	}
 }
