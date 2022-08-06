@@ -18,7 +18,7 @@ pub trait Entity {
 	fn get_type(&self) -> &EntityType;
 	fn get_position(&self) -> &Vec2;
 	fn get_size(&self) -> &Vec2;
-	fn get_life(&self) -> &i32;
+	fn get_life(&self) -> i32;
 
 	fn is_alive(&self) -> bool;
 }

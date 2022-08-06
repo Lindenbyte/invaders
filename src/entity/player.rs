@@ -71,8 +71,8 @@ impl Entity for Player {
 		return &self.size;
 	}
 
-	fn get_life(&self) -> &i32 {
-		return &self.life;
+	fn get_life(&self) -> i32 {
+		return self.life;
 	}
 
 	fn is_alive(&self) -> bool {

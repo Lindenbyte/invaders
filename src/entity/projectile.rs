@@ -5,8 +5,9 @@ use super::{
 	EntityType
 };
 
-const PROJECTILE_SIZE: f32 		= 10.0;
-const PROJECTILE_VELOCITY: f32 	= 5.0;
+pub const PROJECTILE_SIZE: f32		= 10.0;
+const PROJECTILE_VELOCITY: f32 		= 5.0;
+pub const PROJECTILE_DAMAGE: i32 	= 10;
 
 pub struct Projectile {
 	entity_type: EntityType,
@@ -31,7 +32,7 @@ impl Projectile {
 impl Entity for Projectile {
 	fn update(&mut self) {
 		// TODO: Calculate new position based on velocity and angle
-		self.position.y += PROJECTILE_VELOCITY;
+		self.position.y -= PROJECTILE_VELOCITY;
 	}
 
 	fn render(&self) {
@@ -51,8 +52,8 @@ impl Entity for Projectile {
 		return &self.size;
 	}
 
-	fn get_life(&self) -> &i32 {
-		return &self.life;
+	fn get_life(&self) -> i32 {
+		return self.life;
 	}
 
 

@@ -56,8 +56,8 @@ impl Entity for Enemy {
 		return &self.size;
 	}
 
-	fn get_life(&self) -> &i32 {
-		return &self.life;
+	fn get_life(&self) -> i32 {
+		return self.life;
 	}
 	
 	fn is_alive(&self) -> bool {

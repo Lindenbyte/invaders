@@ -6,7 +6,10 @@ use entity::{
 	EntityType,
 	player::Player,
 	enemy::Enemy,
-	projectile::Projectile,
+	projectile::{
+		Projectile,
+		PROJECTILE_DAMAGE, PROJECTILE_SIZE
+	},
 };
 
 // TODO: Move window back to fullscreen later, changed to smaller size for stream.
@@ -24,10 +27,8 @@ fn window_config() -> Conf {
 #[macroquad::main(window_config)]
 async fn main() {
 	// Setup
+	let mut player: Player = Player::new();
 	let mut entities: Vec<Box<dyn Entity>> = vec![];
-	entities.push(Box::new(Player::new()));
-	entities.push(Box::new(Enemy::new(vec2(10.0, 0.0), 10)));
-	entities.push(Box::new(Projectile::new(vec2(100.0, 100.0))));
 
 	// Main loop
 	while !is_key_pressed(KeyCode::Escape) {
@@ -36,17 +37,27 @@ async fn main() {
 		for entity in entities.iter_mut() {
 			entity.update();
 			entity.render();
+			
+			// TODO: Projectile collision
+		}
 
-			// match entity.get_type() {
-			// 	EntityType::Player => {},
-			// 	EntityType::Enemy => {},
-			// 	EntityType::Projectile => {},
-			// }
+		// Player Attacks
+		if is_key_pressed(KeyCode::Up) {
+			let projectile_offset = vec2(PROJECTILE_SIZE / 2.0, PROJECTILE_SIZE / 2.0);
+			let position = *player.get_position() + *player.get_size() / 2.0 - projectile_offset;
+
+			entities.push(Box::new(
+				Projectile::new(position)
+			))
 		}
 
 		entities.retain(|entity| {
 			return entity.is_alive();
 		});
+
+
+		player.update();
+		player.render();
 
 		// Debug information to screen
 		#[cfg(debug_assertions)] {
