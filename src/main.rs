@@ -1,5 +1,3 @@
-use core::panic;
-
 use macroquad::prelude::*;
 
 mod entity;
